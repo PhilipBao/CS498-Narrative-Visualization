@@ -5,8 +5,9 @@
         <title>d3 multi-line chart</title>
         <style>
             .body {
-            padding: 10px 20px 20px;
+            padding: 10px 20px;
             padding-bottom: 10px;
+            margin-left: 20px;
             }
             .axisBlue text{
             fill: blue;
@@ -23,13 +24,13 @@
             <h1>Airbnb listing data impacted by Covid-19 for Toronto, ON, Canada</h1>
             <a target="_blank" href="http://insideairbnb.com/get-the-data.html">Airbnb listing data source</a><br>
             <a target="_blank" href="https://coronavirus.1point3acres.com/">Canada Covid-19 cases data source</a><br>
-            <p4>The line chart showed number of listings and Covid-19 cases information</p4>
-            <p2>Hover on each data point to view more details about the listings at that time</p2>
+            <p>The line chart showed number of listings and Covid-19 cases information</p>
+            <p>Hover and click on each "blue" data point to view more details about the listings at that time</p>
         </div>
         <h2 class="body">Airbnb listing: November 1st, 2019 ~ June 15th, 2020</h2>
-        <div style="color:blue;position:absolute;left:20px;top:390px;width:80px">Total Airbnb listing in Toronto, ON</div>
-        <div style="color:red;position:absolute;left:910px;top:390px;width:80px">Accumulative confirmed Covid-19 cases in Canada</div>
-        <div style="position:absolute;left:400px;top:730px;width:80px">Date</div>
+        <div style="color:blue;position:absolute;left:20px;top:460px;width:80px">Total Airbnb listing in Toronto, ON</div>
+        <div style="color:red;position:absolute;left:910px;top:460px;width:80px">Accumulative confirmed Covid-19 cases in Canada</div>
+        <div style="position:absolute;left:400px;top:800px;width:80px">Date</div>
         <div id="datavis"></div>
         <h2 id="detail_title"></h2>
         <div id="container" style="display: flex">
@@ -200,10 +201,19 @@
                         })
                         .attr("r", 12)
                         .on('mouseover', mouseover)
-                        .on('mousemove', mousemove);
+                        .on('mousemove', mousemove)
+                        .on('click', updatePie);
                     var bisect = d3.bisector(function(d) {
                         return d.date;
                     }).right;
+
+                    function updatePie() {
+                        if (selectedData) {
+                            d3.select("#detail_title").text(formatDate(
+                                        selectedData.date))
+                                    update_detail_data(selectedData);
+                        }
+                    }
 
                     function mousemove() {
 
@@ -224,11 +234,6 @@
                             .attr('x2', x(selectedData.date))
                             .attr('y1', 0)
                             .attr('y2', height);
-                        if (selectedData) {
-                            d3.select("#detail_title").text(formatDate(
-                                        selectedData.date))
-                                    update_detail_data(selectedData);
-                        }
                     }
 
                     function mouseover() {
