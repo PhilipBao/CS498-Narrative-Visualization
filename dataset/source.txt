@@ -1,1 +1,2 @@
 Airbnb listings data for Toronto, ON, Canada from http://insideairbnb.com/get-the-data.html
+Covid-19 accumulative confirmed cases data collected from https://coronavirus.1point3acres.com/
